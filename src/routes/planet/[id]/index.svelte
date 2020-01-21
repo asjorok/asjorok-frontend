@@ -1,6 +1,7 @@
 <script>
     
   import { stores } from "@sapper/app";
+  import * as amqp from 'amqplib/callback_api';
 
 
   const { page } = stores();
