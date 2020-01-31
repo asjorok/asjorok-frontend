@@ -12,8 +12,10 @@
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {
+    "@rollup/plugin-json": "^4.0.1",
     "amqplib": "^0.5.5",
     "compression": "^1.7.1",
+    "nsqjs": "^0.12.1",
     "polka": "next",
     "sirv": "^0.4.0"
   },
