@@ -28,11 +28,14 @@ export function get(req, res) {
     w.publish(channel, {
         request: 'give me data please',
         responseChannel
-    }, console.log);
+    }, (err) => {
+        if (!err) return;
+        console.log(`NSQ ERROR ${err}`);
+    });
 
     setTimeout(() => {
         res.writeHead(500);
-        res.end('timeout');
+        res.end(JSON.stringify({ error: "Timeout" }));
     }, 1000);
 
 }

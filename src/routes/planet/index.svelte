@@ -1,13 +1,19 @@
 <script context="module">
   export async function preload({ params, query }) {
     const res = await this.fetch(`/data/planet/test`);
-    const planetData = await res.json();
-    return { planetData };
+
+    if (res.status !== 200) {
+      console.log("Fetch error:");
+      console.log(await res.json());
+      return { planets: [] };
+    }
+
+    return await res.json();
   }
 </script>
 
 <script>
-  export let planetData;
+  export let planets;
   const planetIds = [10, 20, 123];
 </script>
 
@@ -31,4 +37,4 @@
 
 </ul>
 <h3>MQ DATA</h3>
-<span>{planetData}</span>
+<span>{planets}</span>
