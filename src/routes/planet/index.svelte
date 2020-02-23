@@ -7,14 +7,12 @@
       console.log(await res.json());
       return { planets: [] };
     }
-
     return await res.json();
   }
 </script>
 
 <script>
   export let planets;
-  const planetIds = [10, 20, 123];
 </script>
 
 <style>
@@ -29,12 +27,10 @@
 
 <p>Soon here will be a list of your planets</p>
 <ul>
-  {#each planetIds as id}
+  {#each planets as { id, name }}
     <li>
-      <a href="/planet/{id}">Planet {id}</a>
+      <a href="/planet/{id}">{name}</a>
     </li>
   {/each}
 
 </ul>
-<h3>MQ DATA</h3>
-<span>{planets}</span>
