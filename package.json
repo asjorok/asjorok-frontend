@@ -1,6 +1,6 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "asjorok-frontend",
+  "description": "Frontend for asjorok",
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev",
@@ -15,8 +15,8 @@
     "@rollup/plugin-json": "^4.0.1",
     "amqplib": "^0.5.5",
     "compression": "^1.7.1",
-    "nsqjs": "^0.12.1",
     "polka": "next",
+    "redis-request-broker": "^1.2.0",
     "sirv": "^0.4.0"
   },
   "devDependencies": {

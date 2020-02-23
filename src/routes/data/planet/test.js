@@ -1,55 +1,14 @@
-import * as nsq from 'nsqjs';
+import { Client } from 'redis-request-broker';
 
 const channel = 'planet.list';
-const responseId = 'TEST'
-const responseChannel = `${channel}.res.${responseId}`;
+const c = new Client(channel);
+c.connect();
+export async function get(req, res) {
 
-const r = new nsq.Reader(responseChannel, 'handle', {
-    lookupdHTTPAddresses: '127.0.0.1:4161'
-});
-const w = new nsq.Writer('127.0.0.1', 4150);
-
-export function get(req, res) {
-    r.connect();
-    w.connect();
-
-    let hasReplied = false;
-
-    // Register handler for data
-    r.on('message', (message) => {
-        try {
-
-            hasReplied = true;
-            console.log('GOT MQ MESSAGE');
-            console.log(message.body.toString());
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            });
-
-            res.end(message.body);
-
-        }
-        catch (error) {
-            console.log('ERROR while handling mq response');
-        }
-        finally {
-            message.finish();
-        }
+    const response = await c.request('give me data please');
+    res.writeHead(200, {
+        'Content-Type': 'application/json'
     });
-
-    // Request data
-    w.publish(channel, {
-        request: 'give me data please',
-        responseChannel
-    }, (err) => {
-        if (!err) return;
-        console.log(`NSQ ERROR ${err}`);
-    });
-
-    setTimeout(() => {
-        if (hasReplied) return;
-        res.writeHead(500);
-        res.end(JSON.stringify({ error: "Timeout" }));
-    }, 1000);
+    res.end(JSON.stringify(response));
 
 }
